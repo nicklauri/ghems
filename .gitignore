@@ -1,0 +1,5 @@
+/target
+/clientapp/build
+/clientapp/node_modules
+/.vscode
+/.env.production
