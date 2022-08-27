@@ -19,7 +19,7 @@ use config::{Environment, CONFIG};
 use mimalloc::MiMalloc;
 use tracing::info;
 
-pub use error::GhemResult;
+pub use error::GResult;
 
 #[global_allocator]
 static GLOBAL_ALLOCATOR: MiMalloc = MiMalloc;

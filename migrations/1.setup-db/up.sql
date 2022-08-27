@@ -61,6 +61,7 @@ perform trigger_updated_at('user_account');
 
 insert into user_account
 (
+    id,
     username,
     email,
     first_name,
@@ -71,6 +72,7 @@ insert into user_account
 )
 values
     (
+        '00000000-0000-0000-0000-ff0000000001',
         'admin',
         'ghems_admin@mailinator.com',
         'Admin',
@@ -80,6 +82,7 @@ values
         '$argon2id$v=19$m=4096,t=3,p=1$eAssyClQMNIQkd90vMf5vg$OdbkpzESdv6ySF1UWEfC1lMyjmf7uSRdPPcTF891LSc' -- admin
     ), 
     (
+        '00000000-0000-0000-0000-ff0000000002',
         'nicklauri',
         'knta@mailinator.com',
         'Nick',
@@ -89,6 +92,31 @@ values
         '$argon2id$v=19$m=4096,t=3,p=1$0C/qZgTymIkWMuO6OwiCOg$fmmBssrq8SpeOoBzE6HEoQ3RcFnoX+Vr2XQ9+Qz14aU' -- nicklauri
     ) 
 ;
+
+create table if not exists user_role (
+    id          uuid primary key default gen_random_uuid(),
+    role_name   text not null,
+    role_ident  text not null
+);
+
+insert into user_role (id, role_name, role_ident) values
+    ('00000000-0000-0000-0000-000000000001', 'Admin', 'admin'),
+    ('00000000-0000-0000-0000-000000000002', 'Member', 'member');
+
+create table if not exists users_roles (
+    id uuid primary key default gen_random_uuid(),
+    role_id uuid not null,
+    user_id uuid not null,
+    foreign key (role_id) references user_role(id),
+    foreign key (user_id) references user_account(id)
+);
+
+insert into users_roles (role_id, user_id)
+values
+    ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-ff0000000001'),
+    ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-ff0000000001'),
+    ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-ff0000000002'),
+    ('00000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-ff0000000002');
 
 ------------------------------------------------------------------------------------------------
 -- end script ----------------------------------------------------------------------------------

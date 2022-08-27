@@ -12,8 +12,9 @@ use tracing::info;
 
 use crate::{
     config::CONFIG,
+    extractors::dev::DevOnly,
     models::user::User,
-    utils::{self, dev::DevOnly, password},
+    utils::{self, password},
 };
 
 use super::ApiResult;

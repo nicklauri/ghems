@@ -16,6 +16,8 @@ begin
 migration_name := 'setup_db::down';
 
 -- drop table will also drop trigers, contraints, indexes, ...
+drop table if exists users_roles;
+drop table if exists user_role;
 drop table if exists user_account;
 
 drop collation if exists case_insensitive;

@@ -17,12 +17,6 @@ pub struct Config {
     #[clap(env)]
     pub database_connections: u32,
 
-    #[clap(env, value_parser = parse_list)]
-    pub oauth2_issuers: Vec<String>,
-
-    #[clap(env, value_parser = parse_list)]
-    pub oauth2_audiences: Vec<String>,
-
     #[clap(env)]
     pub jwt_hmac_key: String,
 

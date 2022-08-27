@@ -1,7 +1,12 @@
 use time::Time;
 use tracing::{error, warn};
 
-use crate::{error::Error, utils, GhemResult};
+use crate::{
+    api::ApiContext,
+    error::Error,
+    extractors::{auth::AuthUser, roles::Role},
+    utils, GResult,
+};
 
 use super::db_types::*;
 
@@ -36,7 +41,7 @@ impl User {
     }
 
     #[must_use]
-    pub async fn verify_password(&self, password: &str) -> GhemResult<()> {
+    pub async fn verify_password(&self, password: &str) -> GResult<()> {
         match utils::password::verify(password, &self.password_hash, &self.salt).await {
             Ok(true) => Ok(()),
             Ok(false) => Err(Error::Unauthorized),
@@ -46,10 +51,33 @@ impl User {
             }
         }
     }
+
+    pub async fn generate_access_token(&self, roles: &[Role], ctx: &ApiContext) -> String {
+        let auth_user = AuthUser {
+            user_id: self.id.clone(),
+            email: self.email.clone(),
+            roles: roles.to_vec(),
+        };
+
+        auth_user.to_jwt(ctx)
+    }
+
+    pub async fn generate_refresh_token(&self) -> String {
+        error!("unimplemented generate_refresh_token");
+        String::new()
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserInfoShort {
+    pub id: Uuid,
+    pub username: String,
+    pub email: String,
+    pub password_hash: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserAndRoles {
     pub id: Uuid,
     pub username: String,
     pub email: String,

@@ -10,7 +10,7 @@ use validator::ValidationErrors;
 
 use crate::config::CONFIG;
 
-pub type GhemResult<T> = Result<T, Error>;
+pub type GResult<T> = Result<T, Error>;
 
 /// An API-friendly error type.
 #[derive(thiserror::Error, Debug)]

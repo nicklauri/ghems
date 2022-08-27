@@ -17,7 +17,9 @@ use uuid::Uuid;
 
 use crate::api::ApiContext;
 use crate::error::Error;
-use crate::GhemResult;
+use crate::GResult;
+
+use super::roles::Role;
 
 /// Add this as a parameter to a handler function to require the user to be logged in.
 ///
@@ -26,6 +28,7 @@ use crate::GhemResult;
 pub struct AuthUser {
     pub user_id: Uuid,
     pub email: String,
+    pub roles: Vec<Role>,
 }
 
 /// Add this as a parameter to a handler function to optionally check if the user is logged in.
@@ -39,28 +42,36 @@ pub struct AuthUser {
 pub struct MaybeAuthUser(pub Option<AuthUser>);
 
 #[derive(Serialize, Deserialize)]
-struct AuthUserClaims<'a> {
+struct AuthUserClaims<'a, 'b> {
     user_id: Uuid,
     sub: Cow<'a, str>,
     exp: i64,
+    roles: Cow<'b, [Role]>,
 }
 
 impl AuthUser {
+    #[inline]
     pub fn to_jwt(&self, ctx: &ApiContext) -> String {
         let claims = AuthUserClaims {
             user_id: self.user_id,
-            sub: Cow::from(&self.email),
+            sub: Cow::Borrowed(&self.email),
             exp: OffsetDateTime::now_utc()
                 .add(ctx.config.jwt_max_session_length)
                 .unix_timestamp(),
+            roles: Cow::Borrowed(&self.roles),
         };
 
         jsonwebtoken::encode(&Header::new(Algorithm::HS384), &claims, ctx.encoding_key())
             .expect("HS384 should not be panicked")
     }
 
+    #[inline]
+    pub fn has_role(&self, role: Role) -> bool {
+        self.roles.contains(&role)
+    }
+
     /// Attempt to parse `Self` from an `Authorization` header.
-    fn from_authorization(ctx: &ApiContext, auth_header: &HeaderValue) -> GhemResult<Self> {
+    fn from_authorization(ctx: &ApiContext, auth_header: &HeaderValue) -> GResult<Self> {
         let auth_header = auth_header.to_str().map_err(|_| {
             debug!("authorization header is not valid UTF-8");
             Error::Unauthorized
@@ -76,7 +87,7 @@ impl AuthUser {
 
         let token = auth_header[ctx.config.jwt_schema.len()..].trim();
 
-        let jwt = jsonwebtoken::decode::<AuthUserClaims<'static>>(
+        let jwt = jsonwebtoken::decode::<AuthUserClaims<'static, 'static>>(
             token,
             &ctx.decoding_key,
             &Validation::new(Algorithm::HS384),
@@ -97,6 +108,7 @@ impl AuthUser {
         Ok(Self {
             user_id: jwt.claims.user_id,
             email: jwt.claims.sub.to_string(),
+            roles: jwt.claims.roles.to_vec(),
         })
     }
 }

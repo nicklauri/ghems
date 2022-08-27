@@ -1,17 +1,11 @@
 [package]
-name = "ghem"
+name = "ghems"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-aliri = "0.6.0"
-aliri_axum = "0.1.1"
-aliri_braid = "0.2.4"
-aliri_clock = { version = "0.1.4", features = ["serde"] }
-aliri_oauth2 = { version = "0.8.1", features = ["tokio"] }
-aliri_tower = "0.2.0"
 anyhow = "1.0.61"
 argon2 = { version = "0.4.1", features = ["rayon"] }
 async-trait = "0.1.57"

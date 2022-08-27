@@ -1,8 +1,8 @@
 use super::Db;
 
-use crate::{models::user::User, GhemResult};
+use crate::{models::user::User, GResult};
 
-pub async fn get_user_by_username(db: &Db, username: &str) -> GhemResult<Option<User>> {
+pub async fn get_user_by_username(db: &Db, username: &str) -> GResult<Option<User>> {
     let user = sqlx::query_as!(
         User,
         "

@@ -8,14 +8,14 @@ use tracing::info;
 use crate::{
     config::{Config, CONFIG},
     db::Db,
-    GhemResult,
+    GResult,
 };
 
 pub mod auth;
 pub mod dev;
 pub mod user;
 
-pub type ApiResult<T> = GhemResult<T>;
+pub type ApiResult<T> = GResult<T>;
 
 #[derive(Clone)]
 pub struct ApiContext {

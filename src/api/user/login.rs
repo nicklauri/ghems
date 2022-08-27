@@ -12,9 +12,9 @@ use crate::{
     api::{ApiContext, ApiResult},
     db::{self, Db},
     error::Error,
-    models::User,
+    models::{role::UserRole, User},
     utils::{self, password},
-    GhemResult,
+    GResult,
 };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -26,7 +26,8 @@ pub struct LoginRequest {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LoginResponse {
-    token: String,
+    access_token: String,
+    refresh_token: String,
     schema: &'static str,
     user: User,
 }
@@ -43,8 +44,14 @@ pub async fn login(
     // Verify password and return unauthorized reponse so we don't have to manually check.
     user.verify_password(&req.password).await?;
 
+    let roles = db::user_role::get_user_roles_by_user_id(&ctx.db, user.id).await?;
+
+    let access_token = user.generate_access_token(&roles, &ctx).await;
+    let refresh_token = user.generate_refresh_token().await;
+
     Ok(Json(LoginResponse {
-        token: utils::generate_jwt_token(user.id, user.email.clone(), &ctx),
+        access_token,
+        refresh_token,
         schema: &ctx.config.jwt_schema,
         user,
     }))
