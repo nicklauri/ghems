@@ -1,14 +1,14 @@
-use std::{io, sync::Arc};
-
 use anyhow::Result;
 use axum::{
-    http::StatusCode,
+    http::{Method, StatusCode},
     response::IntoResponse,
     routing::{get, get_service},
     Extension, Router,
 };
 use clap::Parser;
 use sqlx::postgres::PgPoolOptions;
+use std::{io, sync::Arc};
+use tower_http::cors::{Any, CorsLayer};
 use tracing::{info, warn};
 
 use crate::{api, clientapp, config::CONFIG};

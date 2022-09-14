@@ -1,8 +1,10 @@
 use std::{ops::Deref, sync::Arc};
 
-use axum::{response::Response, Extension, Json, Router};
+use axum::{http::Method, response::Response, Extension, Json, Router};
 use jsonwebtoken::{DecodingKey, EncodingKey};
+use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgPoolOptions;
+use tower_http::cors::{Any, CorsLayer};
 use tracing::info;
 
 use crate::{
@@ -15,7 +17,35 @@ pub mod auth;
 pub mod dev;
 pub mod user;
 
-pub type ApiResult<T> = GResult<T>;
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ApiResponse<T: Serialize> {
+    pub is_success: bool,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message: Option<String>,
+
+    pub data: T,
+}
+pub type ApiResult<T> = GResult<Json<ApiResponse<T>>>;
+
+impl<T: Serialize> ApiResponse<T> {
+    pub fn new(is_success: bool, messsage: Option<String>, data: T) -> Self {
+        Self {
+            is_success: true,
+            message: None,
+            data,
+        }
+    }
+
+    pub fn new_success(data: T) -> Self {
+        Self::new(true, None, data)
+    }
+
+    pub fn new_failed(data: T) -> Self {
+        Self::new(false, None, data)
+    }
+}
 
 #[derive(Clone)]
 pub struct ApiContext {
@@ -92,11 +122,18 @@ pub async fn router() -> anyhow::Result<Router> {
 
     let context = ApiContext::new(pgconn);
 
+    let cors = CorsLayer::new()
+        .allow_methods(Any)
+        .allow_origin(Any)
+        .allow_headers(Any)
+        .allow_credentials(false);
+
     let router = Router::new()
         .nest("/auth", auth::router())
         .nest("/user", user::router())
         .nest("/dev", dev::router())
-        .layer(Extension(context));
+        .layer(Extension(context))
+        .layer(cors);
 
     Ok(router)
 }

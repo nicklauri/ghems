@@ -1,0 +1,134 @@
+@use "../../assets/index.scss" as *;
+
+.ghems-text-field {
+  --tf-bg: #{$white};
+  --tf-outline: 1px solid #{$grey-3};
+  --tf-border-radius: 0.5rem;
+  --tf-label-color: #{$grey-6};
+  --tf-height: var(--control-height);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 1.3rem;
+
+  label {
+    position: relative;
+    color: $grey-6;
+  }
+
+  .text-field-container {
+    width: 100%;
+    height: calc(var(--tf-height));
+    display: flex;
+    background-color: var(--tf-bg);
+    outline: var(--tf-outline);
+  }
+
+  .text-field-input {
+    flex-grow: 1;
+    background-color: transparent;
+    padding-inline: 0.5rem;
+  }
+
+  &:not(.no-rounded):not(.label-inline) .text-field-container {
+    border-radius: var(--tf-border-radius);
+  }
+
+  &:not(.no-rounded).label-inline {
+    border-radius: var(--tf-border-radius);
+  }
+
+  .text-field-container {
+    overflow: hidden;
+
+    .text-field-prefix,
+    .text-field-suffix {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-inline: 0.5rem;
+
+      &.text {
+        color: var(--tf-label-color);
+      }
+
+      // &:hover {
+      //   background-color: $grey-3;
+      // }
+    }
+
+    .text-field-prefix.has-separator::after,
+    .text-field-suffix.has-separator::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 80%;
+      border-right: 1px solid $grey-3;
+    }
+
+    .text-field-prefix.has-separator {
+      padding-right: 0.5rem;
+
+      &::after {
+        right: 0rem;
+      }
+    }
+
+    .text-field-suffix.has-separator {
+      padding-left: 0.5rem;
+
+      &::before {
+        left: 0rem;
+      }
+    }
+  }
+
+  .text-field-error {
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+  }
+
+  &.required {
+    >label {
+      &::after {
+        content: " *";
+        color: $danger;
+      }
+    }
+  }
+
+  &.active:not(.label-inline) {
+    .text-field-container {
+      outline: 2px solid $outline-color;
+    }
+  }
+
+  &.active.label-inline {
+    outline: 2px solid $outline-color;
+  }
+
+  &.invalid:not(.label-inline) {
+    .text-field-container {
+      outline: 2px solid $danger;
+    }
+  }
+
+  &.invalid.label-inline {
+    outline: 2px solid $danger;
+  }
+
+  &.has-error-placeholder {
+    .text-field-error {
+      min-height: 1.2rem;
+    }
+  }
+
+  &.disable {
+    .text-field-input {
+      pointer-events: none;
+    }
+  }
+}

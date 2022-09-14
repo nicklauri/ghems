@@ -7,6 +7,7 @@ use crate::{
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct UserRole {
     pub id: Uuid,
     pub role_name: String,
@@ -14,6 +15,7 @@ pub struct UserRole {
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct UserRoles {
     pub id: Uuid,
     pub role_id: Uuid,

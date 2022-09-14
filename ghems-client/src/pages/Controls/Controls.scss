@@ -1,0 +1,18 @@
+.controls-page {
+  display: grid;
+  gap: 10px;
+  justify-content: space-between;
+
+  .area {
+    grid-column: 1/4;
+
+    &.row {
+      display: flex;
+      gap: 1rem;
+
+      &.vertical {
+        flex-direction: column;
+      }
+    }
+  }
+}

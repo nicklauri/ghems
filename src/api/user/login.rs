@@ -13,7 +13,7 @@ use crate::{
     db::{self, Db},
     error::Error,
     models::{role::UserRole, User},
-    utils::{self, password},
+    utils::{self, api_response, api_success, password},
     GResult,
 };
 
@@ -27,7 +27,7 @@ pub struct LoginRequest {
 #[serde(rename_all = "camelCase")]
 pub struct LoginResponse {
     access_token: String,
-    refresh_token: String,
+    // refresh_token: String,
     schema: &'static str,
     user: User,
 }
@@ -36,7 +36,7 @@ pub struct LoginResponse {
 pub async fn login(
     ctx: Extension<ApiContext>,
     req: Json<LoginRequest>,
-) -> ApiResult<Json<LoginResponse>> {
+) -> ApiResult<LoginResponse> {
     let user = db::user_account::get_user_by_username(&ctx.db, &req.username)
         .await?
         .ok_or(Error::Unauthorized)?;
@@ -47,12 +47,12 @@ pub async fn login(
     let roles = db::user_role::get_user_roles_by_user_id(&ctx.db, user.id).await?;
 
     let access_token = user.generate_access_token(&roles, &ctx).await;
-    let refresh_token = user.generate_refresh_token().await;
+    // let refresh_token = user.generate_refresh_token().await;
 
-    Ok(Json(LoginResponse {
+    api_success(LoginResponse {
         access_token,
-        refresh_token,
+        // refresh_token,
         schema: &ctx.config.jwt_schema,
         user,
-    }))
+    })
 }

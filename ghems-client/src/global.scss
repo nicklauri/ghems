@@ -1,0 +1,276 @@
+@use "./assets/index.scss" as *;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+// @import '~antd/dist/antd.css';
+
+/// Fonts:
+/// - Montserrat
+/// - Inter
+/// - DM Sans
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  font-size: 10px;
+
+  --text-black: hsla(0, 0%, 0%, 0.85);
+
+  // https://tailwindcolor.com/
+  --danger-text: hsl(0, 84.2%, 60.2%);
+  --danger-bg: hsl(0, 90.6%, 70.8%);
+
+  --success-text: hsl(142.39999999999998, 71.8%, 29.2%);
+  --success-bg: hsl(142.10000000000002, 70.6%, 45.3%);
+
+  --warning-text: hsl(32.10000000000002, 94.6%, 43.7%);
+  --warning-bg: hsl(43.30000000000001, 96.4%, 56.3%);
+
+  --info-text: hsl(242.20000000000005, 47.4%, 34.3%);
+  --info-bg: hsl(238.70000000000005, 83.5%, 66.7%);
+
+  --light-blue-bg: hsl(204, 100%, 97.1%);
+  --primary-1: hsl(204, 100%, 97.1%);
+  --primary-2: hsl(204, 93.8%, 93.7%);
+  --primary-3: hsl(200.6, 94.4%, 86.1%);
+  --primary-4: hsl(199.4, 95.5%, 73.9%);
+  --primary-5: hsl(198.4, 93.2%, 59.6%);
+  --primary-6: hsl(198.6, 88.7%, 48.4%);
+  --primary-7: hsl(200.4, 98%, 39.4%);
+  --primary-8: hsl(201.3, 96.3%, 32.2%);
+  --primary-9: hsl(201, 90%, 27.5%);
+  --primary-10: hsl(202, 80.3%, 23.9%);
+
+  --grey-1: hsl(60, 9.1%, 97.8%);
+  --grey-2: hsl(60, 4.8%, 95.9%);
+  --grey-3: hsl(20, 5.9%, 90%);
+  --grey-4: hsl(24, 5.7%, 82.9%);
+  --grey-5: hsl(24, 5.4%, 63.9%);
+  --grey-6: hsl(25, 5.3%, 44.7%);
+  --grey-7: hsl(33.3, 5.5%, 32.4%);
+  --grey-8: hsl(30, 6.3%, 25.1%);
+  --grey-9: hsl(12, 6.5%, 15.1%);
+  --grey-10: hsl(24, 9.8%, 10%);
+
+  --color-white: #ffffff;
+  --color-teal-T900: #054861;
+  --color-teal-T800: #0f6a80;
+  --color-teal-T700: #139cab;
+  --color-teal-T600: #30c8c9;
+  --color-teal-T500: #5cebdf;
+  --color-teal-T400: #84f3df;
+  --color-teal-T300: #9ef9e0;
+  --color-teal-T200: #bffde7;
+  --color-teal-T100: hsl(153, 94%, 94%);
+  --color-teal-T050: #f2fef5;
+
+  --color-blue-B900: #061475;
+  --color-blue-B800: #0a1e8d;
+  --color-blue-B700: #112caf;
+  --color-blue-B600: #183dd1;
+  --color-blue-B500: #2250f4;
+  --color-blue-B400: #587ef8;
+  --color-blue-B300: #799cfb;
+  --color-blue-B200: #a6bffd;
+  --color-blue-B100: #d2e0fe;
+  --color-blue-B050: #e5edff;
+  --color-gray-L800: #151a1e;
+  --color-gray-L700: #33373b;
+  --color-gray-L600: #676c70;
+  --color-gray-L500: #80858a;
+  --color-gray-L400: #a3a7ac;
+  --color-gray-L300: #e7eaed;
+  --color-gray-L200: #f2f5f8;
+  --color-gray-L100: #fafbfb;
+  --color-gray-L000: #ffffff;
+  --color-gray-D800: #151a1e;
+  --color-gray-D700: #1c2126;
+  --color-gray-D600: #22262a;
+  --color-gray-D500: #2a2e32;
+  --color-gray-D400: #4c5257;
+  --color-gray-D300: #80858a;
+  --color-gray-D200: #a3a8ac;
+  --color-gray-D100: #e7eaed;
+  --color-gray-D000: #ffffff;
+  --color-yellow-Y900: #7a4804;
+  --color-yellow-Y800: #935c07;
+  --color-yellow-Y700: #b7790b;
+  --color-yellow-Y600: #db9710;
+  --color-yellow-Y500: #ffb916;
+  --color-yellow-Y400: #ffcf50;
+  --color-yellow-Y300: #ffdd73;
+  --color-yellow-Y200: #ffeba1;
+  --color-yellow-Y100: #fff6d0;
+  --color-yellow-Y050: #fffcec;
+  --color-red-R900: #7a122d;
+  --color-red-R800: #931e33;
+  --color-red-R700: #b7303d;
+  --color-red-R600: #db4648;
+  --color-red-R500: #ff6b60;
+  --color-red-R400: #ff9987;
+  --color-red-R300: #ffb59f;
+  --color-red-R200: #ffd3bf;
+  --color-red-R100: #ffebdf;
+  --color-red-R050: #fff5eb;
+  --color-pink: #ff6969;
+  --color-pink-dark: #ff1154;
+  --color-pink-accessible: #e8114e;
+  --color-orange: #f86816;
+  --color-orange-dark: #b74808;
+  --color-blue: #43b4d8;
+  --color-blue-dark: #146396;
+  --color-blue-dark-b: #133857;
+  --color-violet: #c57aa2;
+  --color-violet-dark: #7c0c64;
+  --color-gold: #f6bc00;
+  --color-yellow: #ffad43;
+  --color-yellow-dark: #cc801f;
+  --color-plan-starter: var(--color-teal-T900);
+  --color-plan-pro: var(--color-pink-dark);
+  --color-plan-pro-accessible: var(--color-pink-accessible);
+  --color-plan-business: var(--color-blue-dark);
+  --color-plan-enterprise: var(--color-gray-L700);
+  --gradient-1: linear-gradient(to bottom, #230a5c 0%, #3e119c 100%);
+  --font-headline: Pacaembu, sans-serif;
+  --font-headline-feature-settings: "salt" 1;
+  --font-primary: Pacaembu, sans-serif;
+  --font-primary-feature-settings: "salt" 1;
+  --font-secondary: Mulish, sans-serif;
+  --font-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  --radius-1: 0.125rem;
+  --radius-2: 0.25rem;
+  --radius-3: 0.5rem;
+  --radius-4: 1rem;
+  --radius-circle: 50%;
+  --radius-pill: 360px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 4rem;
+  --ease-out: cubic-bezier(0.5, 1, 0.89, 1);
+  --border-radius: 0.6rem;
+  --border-radius-large: 1.2rem;
+  --grid-gutter: 2.5rem;
+  --shadow-light: 0px 2px 4px rgba(14, 30, 37, 0.12);
+  --shadow-heavy: -10px 10px 80px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-deep: 0px 16px 24px rgba(0, 0, 0, 0.07), 0px 6px 30px rgba(0, 0, 0, 0.06), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  --shadow-coheeze-shallow: 0px 2px 4px rgba(51, 55, 59, 0.08), 0px 1px 10px rgba(51, 55, 59, 0.06);
+  --shadow-coheeze-deepest: 0px 24px 38px rgba(0, 0, 0, 0.14), 0px 9px 46px rgba(0, 0, 0, 0.04);
+  --shadow-coheeze-shallow-filter: drop-shadow(0px 1px 10px rgba(51, 55, 59, 0.06)) drop-shadow(0px 2px 4px rgba(51, 55, 59, 0.08));
+  --shadow-coheeze-deep-filter: drop-shadow(0px 6px 30px rgba(51, 55, 59, 0.04)) drop-shadow(0px 8px 24px rgba(51, 55, 59, 0.04)) drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.08));
+
+  --control-height: 3.2rem;
+  --control-height: 2.8rem;
+  --bg-white: hsla(0, 0%, 92%);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Inter, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.4rem;
+
+  color: $black;
+  font-variant-numeric: tabular-nums;
+
+  background-color: $light-bg;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 1.3rem;
+  line-height: 2.4rem;
+}
+
+// input[type=password] {
+//   font-family: Arial, sans-serif;
+// }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+input,
+textarea {
+  border: none;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+button {
+  border: none;
+}
+
+.text-color-animation {
+  --color: linear-gradient(45deg,
+    #{$primary-8},
+    #{$primary-7},
+    #{$primary-5},
+    #{$primary-6},
+    #{$primary-4},
+    #{$primary-6},
+    #{$primary-8});
+  --function: linear;
+  --duration: 5s;
+
+  background: var(--color);
+  background-size: 200% auto;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-color-animation var(--duration) var(--function) infinite;
+}
+
+@keyframes text-color-animation {
+  0% {
+    background-position: 0px 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.text-info {
+  color: var(--info-text);
+}
+
+.text-success {
+  color: var(--success-text);
+}
+
+.text-warn {
+  color: var(--warning-text);
+}
+
+.text-danger {
+  color: var(--danger-text);
+}
+
+.error-message {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    transform: rotateZ(1turn);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,85 @@
+@use "../../assets/index.scss" as *;
+
+.ghems-button {
+  --btn-border-radius: var(--border-radius);
+  --btn-height: var(--control-height);
+
+  display: flex;
+  height: var(--btn-height);
+
+  button {
+    height: 100%;
+    flex-grow: 1;
+    background-color: $white;
+    padding-inline: 1rem;
+    border-radius: var(--btn-border-radius);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    position: relative;
+
+    box-shadow:
+      0px 1px 2px rgb(0 0 0 / 10%),
+      0px 2px 3px rgb(0 0 0 / 10%), ;
+  }
+
+  &.disabled {
+    button {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  &.primary {
+    button {
+      color: var(--primary-1);
+      background-color: var(--primary-6);
+
+      &:hover {
+        background-color: var(--primary-5);
+      }
+
+      &:active {
+        background-color: var(--primary-7);
+      }
+
+      &:active {
+        box-shadow: none;
+      }
+
+      // &:focus {
+      //   outline: 1px solid var(--primary-7);
+      // }
+    }
+  }
+
+  &.secondary>button {
+    color: var(--primary-1);
+    background-color: var(--color-red-R500);
+
+    &:hover {
+      background-color: var(--color-red-R400);
+    }
+
+    &:active {
+      background-color: var(--color-red-R600);
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+
+    // &:focus {
+    //   outline: 1px solid var(--primary-7);
+    // }
+  }
+
+  button {
+    &:hover {
+      background-color: var(--grey-2);
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+}

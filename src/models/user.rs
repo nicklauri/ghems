@@ -11,6 +11,7 @@ use crate::{
 use super::db_types::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct User {
     pub id: Uuid,
     pub username: String,
@@ -69,6 +70,7 @@ impl User {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct UserInfoShort {
     pub id: Uuid,
     pub username: String,
@@ -77,11 +79,28 @@ pub struct UserInfoShort {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct UserAndRoles {
     pub id: Uuid,
     pub username: String,
     pub email: String,
     pub password_hash: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdateUser {
+    pub id: Uuid,
+    pub email: String,
+    pub first_name: String,
+    pub last_name: String,
+    pub bio: String,
+
+    #[serde(skip_serializing)]
+    pub password_hash: String,
+
+    #[serde(skip_serializing)]
+    pub salt: String,
 }
 
 #[allow(dead_code)]

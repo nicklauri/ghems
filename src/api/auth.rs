@@ -1,5 +1,7 @@
-use axum::{routing::post, Router};
+use axum::{routing::post, Json, Router};
 use serde::{Deserialize, Serialize};
+
+use crate::utils::api_success;
 
 use super::ApiResult;
 
@@ -14,5 +16,5 @@ pub struct OAuthEndpointRequest {
 }
 
 pub async fn oauth_endpoint() -> ApiResult<()> {
-    Ok(())
+    api_success(())
 }

@@ -1,0 +1,85 @@
+.upload-page {
+  padding: 1rem;
+  min-height: 100vh;
+  width: min(800px, 90%);
+
+  .display-none {
+    display: none;
+  }
+
+  .d-inline-flex {
+    display: inline-flex;
+  }
+
+  .buttonz {
+    align-self: flex-end;
+  }
+
+  .container {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    min-width: 300px;
+
+    .row {
+      display: flex;
+    }
+
+    .row.actions {
+      gap: 0.5rem;
+    }
+  }
+
+  .item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: 8px;
+    box-shadow:
+      0 1px 3px var(--grey-4),
+      0 3px 5px var(--grey-4),
+    ;
+    background-color: white;
+    flex-grow: 1;
+
+    .header {
+      font-size: 20px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--grey-4);
+      padding: 1rem;
+    }
+
+    .list {
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+
+      .file:not(:last-child) {
+        border-bottom: 1px solid #e9e9e9;
+        padding-bottom: 0.4rem;
+      }
+
+      .file {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .actions {
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
+
+      .empty {
+        color: var(--grey-6);
+      }
+    }
+
+    .content {
+      min-height: 30px;
+      padding: 1rem;
+      font-family: "Cascadia Mono";
+    }
+  }
+}

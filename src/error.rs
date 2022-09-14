@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::error::Error as StdError;
 
 use axum::http::{self, StatusCode};
@@ -8,6 +9,7 @@ use sqlx::error::DatabaseError;
 use tracing::warn;
 use validator::ValidationErrors;
 
+use crate::api::ApiResponse;
 use crate::config::CONFIG;
 
 pub type GResult<T> = Result<T, Error>;
@@ -32,6 +34,9 @@ pub enum Error {
     #[error("validation error in request body")]
     InvalidEntity(#[from] ValidationErrors),
 
+    #[error("{}", .0.as_ref().map(crate::utils::cow::borrow_str).unwrap_or("API return error"))]
+    ApiError(Option<Cow<'static, str>>),
+
     #[error("unauthorized")]
     Unauthorized,
 
@@ -45,9 +50,8 @@ pub enum Error {
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
         #[derive(serde::Serialize)]
+        #[serde(rename_all = "camelCase")]
         struct ErrorResponse<'a> {
-            message: String,
-
             #[serde(skip_serializing_if = "Option::is_none")]
             errors: Option<&'a ValidationErrors>,
 
@@ -72,10 +76,10 @@ impl IntoResponse for Error {
 
         (
             self.status_code(),
-            Json(ErrorResponse {
-                message: self.to_string(),
-                errors,
-                details,
+            Json(ApiResponse {
+                is_success: false,
+                message: Some(self.to_string()),
+                data: ErrorResponse { errors, details },
             }),
         )
             .into_response()
@@ -93,6 +97,7 @@ impl Error {
             Unauthorized => StatusCode::UNAUTHORIZED,
             Forbidden => StatusCode::FORBIDDEN,
             NotFound => StatusCode::NOT_FOUND,
+            ApiError(_) => StatusCode::OK,
         }
     }
 }

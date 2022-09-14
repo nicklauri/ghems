@@ -14,7 +14,7 @@ use crate::{
     config::CONFIG,
     extractors::dev::DevOnly,
     models::user::User,
-    utils::{self, password},
+    utils::{self, api_success, password},
 };
 
 use super::ApiResult;
@@ -42,7 +42,7 @@ pub async fn hash(_: DevOnly, param: Query<HashRequest>) -> ApiResult<String> {
 
     let (hashed, salt) = password::hash(&param.input).await?;
 
-    Ok(format!(
+    api_success(format!(
         "
             input : {}
             hashed: {}

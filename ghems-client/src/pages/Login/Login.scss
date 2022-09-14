@@ -1,0 +1,73 @@
+@use "../../assets/index.scss" as *;
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  width: 100vw;
+  height: 100vh;
+
+  .login-form {
+    width: min(400px, 90%);
+    border-radius: 20px;
+    box-shadow:
+      -2px -2px 5px rgb(255 255 255 / 90%),
+      -4px -4px 10px rgb(255 255 255 / 90%),
+      2px 2px 5px rgb(0 0 0 / 10%),
+      4px 4px 10px rgb(0 0 0 / 10%),
+    ;
+    padding: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .title {
+      // text-align: center;
+
+      .text-color-animation {
+        --color: linear-gradient(to right,
+          #{$primary-8},
+          #{$primary-7},
+          #{$primary-5},
+          #{$primary-6},
+          #{$primary-4},
+          #{$primary-6},
+          #{$primary-8});
+        --duration: 7s;
+        font-size: 3rem;
+        font-family: Inter;
+      }
+
+      font-size: 2.3rem;
+      font-weight: 600;
+      user-select: none;
+      color: $grey-7;
+      font-family: "Montserrat";
+    }
+
+    .row-title {
+      margin-bottom: 0.2rem;
+    }
+
+    .row {
+      display: flex;
+      padding: 0.3rem 0.9rem;
+
+      &>* {
+        flex-grow: 1;
+        width: 100%;
+      }
+
+      &.align-right {
+        align-self: flex-end;
+      }
+
+      &.button {
+        // margin-top: 1rem;
+      }
+    }
+  }
+}
